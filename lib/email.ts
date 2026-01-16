@@ -1,7 +1,13 @@
 import { Resend } from 'resend'
 import nodemailer from 'nodemailer'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy-init Resend to avoid build errors when API key is not set
+let resend: Resend | null = null
+function getResend(): Resend | null {
+  if (!process.env.RESEND_API_KEY) return null
+  if (!resend) resend = new Resend(process.env.RESEND_API_KEY)
+  return resend
+}
 
 // Gmail SMTP transporter (created lazily)
 function getGmailTransporter() {
@@ -43,9 +49,12 @@ async function sendWithGmail(email: string, subject: string, html: string): Prom
 }
 
 async function sendWithResend(email: string, subject: string, html: string): Promise<{ success: boolean; error?: string }> {
+  const client = getResend()
+  if (!client) return { success: false, error: 'Resend API key not configured' }
+
   try {
     const fromDomain = process.env.RESEND_DOMAIN || 'resend.dev'
-    const { error } = await resend.emails.send({
+    const { error } = await client.emails.send({
       from: `RealEstate Pro <noreply@${fromDomain}>`,
       to: email,
       subject,
