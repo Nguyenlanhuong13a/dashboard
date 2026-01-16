@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lsof:*)",
+      "Bash(xargs:*)",
+      "Skill(ui-ux-pro-max)",
+      "Bash(python3:*)",
+      "Bash(npm run build:*)",
+      "Bash(fuser:*)"
+    ]
+  }
+}

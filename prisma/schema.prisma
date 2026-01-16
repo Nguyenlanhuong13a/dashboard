@@ -1,0 +1,817 @@
+// Prisma schema for RealEstate Pro CRM
+// Using Neon Database (PostgreSQL) + NextAuth
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// NEXTAUTH - AUTHENTICATION MODELS
+// ============================================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expires   DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([code])
+  @@map("email_verifications")
+}
+
+// ============================================================
+// USER
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  name          String?
+  image         String?
+  password      String?
+  phone         String?
+  licenseNumber String?
+  role          UserRole  @default(AGENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // NextAuth relations
+  accounts      Account[]
+  sessions      Session[]
+  
+  // App relations
+  properties    Property[]
+  documents     Document[]
+  transactions  Transaction[]
+  favorites     Favorite[]
+  leads         Lead[]
+  notifications Notification[]
+  subscription  Subscription?
+
+  // Premium features
+  teamMembers   TeamMember[]
+  credits       UserCredits?
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  AGENT
+  VIEWER
+}
+
+// ============================================================
+// PROPERTY
+// ============================================================
+
+model Property {
+  id              String          @id @default(cuid())
+  title           String
+  address         String
+  city            String
+  state           String
+  zipCode         String?
+  
+  price           Float           @default(0)
+  monthlyRent     Float           @default(0)
+  listingType     ListingType     @default(FOR_SALE)
+  propertyType    PropertyType    @default(RESIDENTIAL)
+  
+  beds            Int             @default(0)
+  baths           Float           @default(0)
+  sqft            Int             @default(0)
+  yearBuilt       Int?
+  lotSize         Int?
+  parkingSpaces   Int             @default(0)
+  
+  capRate         Float           @default(0)
+  noi             Float           @default(0)
+  grossYield      Float           @default(0)
+  pricePerSqft    Float           @default(0)
+  commissionRate  Float           @default(2.5)
+  commissionAmount Float          @default(0)
+  
+  occupancyStatus OccupancyStatus @default(VACANT)
+  tenantName      String?
+  leaseStart      DateTime?
+  leaseEnd        DateTime?
+  maintenanceStatus MaintenanceStatus @default(GOOD)
+  lastInspection  DateTime?
+  
+  daysOnMarket    Int             @default(0)
+  hoaFees         Float           @default(0)
+  propertyTax     Float           @default(0)
+  insuranceCost   Float           @default(0)
+  leadSource      String?
+  listingAgent    String?
+  
+  image           String?
+  images          String[]
+  featured        Boolean         @default(false)
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documents       Document[]
+  transactions    Transaction[]
+  favorites       Favorite[]
+  leads           Lead[]
+
+  @@index([userId])
+  @@index([listingType])
+  @@index([propertyType])
+  @@index([city])
+  @@map("properties")
+}
+
+enum ListingType {
+  FOR_SALE
+  FOR_RENT
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+  LUXURY
+  VACATION
+  INVESTMENT
+}
+
+enum OccupancyStatus {
+  OCCUPIED
+  VACANT
+  PENDING
+}
+
+enum MaintenanceStatus {
+  GOOD
+  NEEDS_ATTENTION
+  CRITICAL
+}
+
+// ============================================================
+// DOCUMENT
+// ============================================================
+
+model Document {
+  id          String           @id @default(cuid())
+  name        String
+  type        String
+  size        String
+  url         String
+  category    DocumentCategory @default(OTHER)
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId  String?
+  property    Property?        @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([propertyId])
+  @@map("documents")
+}
+
+enum DocumentCategory {
+  CONTRACTS
+  REPORTS
+  INSURANCE
+  LEGAL
+  OTHER
+}
+
+// ============================================================
+// TRANSACTION
+// ============================================================
+
+model Transaction {
+  id          String          @id @default(cuid())
+  type        TransactionType
+  description String
+  amount      Float
+  date        DateTime        @default(now())
+
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId  String?
+  property    Property?       @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([propertyId])
+  @@index([date])
+  @@index([type, date])
+  @@index([userId, date])
+  @@map("transactions")
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  COMMISSION
+}
+
+// ============================================================
+// FAVORITE
+// ============================================================
+
+model Favorite {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@map("favorites")
+}
+
+// ============================================================
+// LEAD MANAGEMENT (Revenue Feature)
+// ============================================================
+
+model Lead {
+  id            String      @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  source        LeadSource  @default(WEBSITE)
+  status        LeadStatus  @default(NEW)
+  priority      LeadPriority @default(MEDIUM)
+  notes         String?
+  budget        Float?
+  preferredArea String?
+
+  lastContactAt DateTime?
+  nextFollowUp  DateTime?
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId    String?
+  property      Property?   @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  activities    LeadActivity[]
+  score         LeadScore?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([status, priority])
+  @@index([userId, status])
+  @@map("leads")
+}
+
+model LeadActivity {
+  id          String   @id @default(cuid())
+  type        String
+  description String
+  createdAt   DateTime @default(now())
+
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@map("lead_activities")
+}
+
+enum LeadSource {
+  WEBSITE
+  REFERRAL
+  SOCIAL_MEDIA
+  COLD_CALL
+  OPEN_HOUSE
+  ZILLOW
+  REALTOR
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  SHOWING
+  NEGOTIATING
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+enum LeadPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+model Notification {
+  id          String           @id @default(cuid())
+  type        NotificationType
+  title       String
+  message     String
+  read        Boolean          @default(false)
+  actionUrl   String?
+
+  createdAt   DateTime         @default(now())
+
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  LEAD_NEW
+  LEAD_FOLLOWUP
+  PROPERTY_INQUIRY
+  PAYMENT_DUE
+  DOCUMENT_SIGNED
+  SYSTEM
+}
+
+// ============================================================
+// SUBSCRIPTION & BILLING (Revenue)
+// ============================================================
+
+model Subscription {
+  id            String           @id @default(cuid())
+  plan          SubscriptionPlan @default(FREE)
+  status        SubscriptionStatus @default(ACTIVE)
+
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean      @default(false)
+
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  stripePriceId        String?
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  userId        String           @unique
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  payments      Payment[]
+
+  @@map("subscriptions")
+}
+
+model Payment {
+  id                   String        @id @default(cuid())
+  stripePaymentIntentId String       @unique
+  stripeSessionId      String?       @unique
+  amount               Int
+  currency             String        @default("usd")
+  status               PaymentStatus @default(PENDING)
+  plan                 SubscriptionPlan
+
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  completedAt          DateTime?
+
+  userId               String
+  subscriptionId       String?
+  subscription         Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum SubscriptionPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
+
+// ============================================================
+// TEAM MANAGEMENT (Premium Feature)
+// ============================================================
+
+model Team {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String?
+  image       String?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  ownerId     String
+  members     TeamMember[]
+  invites     TeamInvite[]
+
+  @@index([ownerId])
+  @@map("teams")
+}
+
+model TeamMember {
+  id        String     @id @default(cuid())
+  role      TeamRole   @default(MEMBER)
+  joinedAt  DateTime   @default(now())
+
+  teamId    String
+  team      Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@map("team_members")
+}
+
+model TeamInvite {
+  id        String     @id @default(cuid())
+  email     String
+  role      TeamRole   @default(MEMBER)
+  token     String     @unique
+  expiresAt DateTime
+  createdAt DateTime   @default(now())
+
+  teamId    String
+  team      Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@map("team_invites")
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+// ============================================================
+// LEAD MARKETPLACE (Revenue Feature)
+// ============================================================
+
+model LeadListing {
+  id            String            @id @default(cuid())
+  title         String
+  description   String?
+  price         Float
+  location      String
+  propertyType  PropertyType?
+  budget        Float?
+  budgetMax     Float?
+  status        LeadListingStatus @default(ACTIVE)
+  views         Int               @default(0)
+
+  // Lead details (anonymized until purchased)
+  leadName      String
+  leadEmail     String
+  leadPhone     String?
+  leadNotes     String?
+
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  expiresAt     DateTime?
+
+  sellerId      String
+  purchases     LeadPurchase[]
+
+  @@index([sellerId])
+  @@index([status])
+  @@index([location])
+  @@index([propertyType])
+  @@map("lead_listings")
+}
+
+model LeadPurchase {
+  id            String    @id @default(cuid())
+  amount        Float
+  platformFee   Float     // 10-30% fee
+  sellerAmount  Float
+  status        PurchaseStatus @default(PENDING)
+
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  buyerId       String
+  listingId     String
+  listing       LeadListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  stripePaymentId String?
+
+  @@index([buyerId])
+  @@index([listingId])
+  @@index([status])
+  @@map("lead_purchases")
+}
+
+enum LeadListingStatus {
+  ACTIVE
+  SOLD
+  EXPIRED
+  CANCELLED
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+  DISPUTED
+}
+
+// ============================================================
+// EMAIL AUTOMATION (Premium Feature)
+// ============================================================
+
+model EmailTemplate {
+  id          String       @id @default(cuid())
+  name        String
+  subject     String
+  body        String       @db.Text
+  type        EmailType
+  isActive    Boolean      @default(true)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  userId      String
+  campaigns   EmailCampaign[]
+
+  @@index([userId])
+  @@index([type])
+  @@map("email_templates")
+}
+
+model EmailCampaign {
+  id            String          @id @default(cuid())
+  name          String
+  status        CampaignStatus  @default(DRAFT)
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+
+  // Targeting
+  targetStatus  LeadStatus[]
+  targetSource  LeadSource[]
+
+  // Stats
+  totalSent     Int             @default(0)
+  totalOpened   Int             @default(0)
+  totalClicked  Int             @default(0)
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  userId        String
+  templateId    String
+  template      EmailTemplate   @relation(fields: [templateId], references: [id])
+  logs          EmailLog[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("email_campaigns")
+}
+
+model EmailLog {
+  id          String      @id @default(cuid())
+  status      EmailStatus @default(SENT)
+  openedAt    DateTime?
+  clickedAt   DateTime?
+  bouncedAt   DateTime?
+  error       String?
+
+  createdAt   DateTime    @default(now())
+
+  campaignId  String
+  campaign    EmailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  leadId      String
+
+  @@index([campaignId])
+  @@index([leadId])
+  @@map("email_logs")
+}
+
+enum EmailType {
+  WELCOME
+  FOLLOW_UP
+  PROPERTY_ALERT
+  NEWSLETTER
+  CUSTOM
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  PAUSED
+  CANCELLED
+}
+
+enum EmailStatus {
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  FAILED
+}
+
+// ============================================================
+// AI LEAD SCORING (Premium Feature)
+// ============================================================
+
+model LeadScore {
+  id            String    @id @default(cuid())
+  score         Int       // 0-100
+  confidence    Float     // 0-1
+  factors       Json      // Breakdown of scoring factors
+  prediction    String?   // e.g., "HIGH_INTENT", "LIKELY_TO_CONVERT"
+
+  calculatedAt  DateTime  @default(now())
+
+  leadId        String    @unique
+  lead          Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([score])
+  @@map("lead_scores")
+}
+
+// ============================================================
+// TRANSACTION SETTLEMENT (Revenue Feature)
+// ============================================================
+
+model Settlement {
+  id              String           @id @default(cuid())
+  type            SettlementType
+  status          SettlementStatus @default(PENDING)
+
+  // Transaction details
+  propertyPrice   Float
+  commissionRate  Float
+  commissionAmount Float
+  platformFee     Float            // Our cut
+  agentAmount     Float
+
+  // Parties
+  buyerName       String?
+  buyerEmail      String?
+  sellerName      String?
+  sellerEmail     String?
+
+  closingDate     DateTime?
+  disbursedAt     DateTime?
+
+  notes           String?
+  documents       String[]         // Document URLs
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  userId          String
+  propertyId      String?
+
+  @@index([userId])
+  @@index([status])
+  @@index([closingDate])
+  @@map("settlements")
+}
+
+enum SettlementType {
+  SALE
+  RENTAL
+  LEASE
+}
+
+enum SettlementStatus {
+  PENDING
+  IN_ESCROW
+  CLOSING
+  COMPLETED
+  CANCELLED
+}
+
+// ============================================================
+// ADD-ON CREDITS (Monetization)
+// ============================================================
+
+model UserCredits {
+  id            String    @id @default(cuid())
+
+  // Lead marketplace credits
+  leadCredits   Int       @default(0)
+
+  // AI analysis credits
+  aiCredits     Int       @default(0)
+
+  // Email credits (beyond plan limit)
+  emailCredits  Int       @default(0)
+
+  updatedAt     DateTime  @updatedAt
+
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_credits")
+}
+
+model CreditTransaction {
+  id          String           @id @default(cuid())
+  type        CreditType
+  amount      Int
+  action      CreditAction
+  description String?
+
+  createdAt   DateTime         @default(now())
+
+  userId      String
+
+  @@index([userId])
+  @@index([type])
+  @@map("credit_transactions")
+}
+
+enum CreditType {
+  LEAD
+  AI
+  EMAIL
+}
+
+enum CreditAction {
+  PURCHASE
+  USE
+  REFUND
+  BONUS
+}

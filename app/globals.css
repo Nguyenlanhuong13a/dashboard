@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   RealEstate Pro - Glassmorphism Design System
+   Typography: Cinzel (display) + Josefin Sans (body)
+   Colors: Teal primary (#0F766E) + Sky accent (#0369A1)
+   ============================================================ */
+
+:root {
+  /* Primary Palette */
+  --color-primary: #0F766E;
+  --color-primary-light: #14B8A6;
+  --color-primary-dark: #134E4A;
+
+  /* Accent */
+  --color-accent: #0369A1;
+  --color-accent-gold: #D4AF37;
+
+  /* Surfaces */
+  --color-surface: #F0FDFA;
+  --color-surface-glass: rgba(255, 255, 255, 0.8);
+  --color-surface-glass-border: rgba(255, 255, 255, 0.2);
+
+  /* Text */
+  --color-text-primary: #134E4A;
+  --color-text-secondary: #0D9488;
+  --color-text-muted: #5EEAD4;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-primary-dark bg-surface;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-transparent rounded-2xl border border-primary/20;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:border-primary/30 cursor-pointer;
+  }
+
+  /* Glass Button */
+  .btn-glass {
+    @apply px-6 py-3 bg-white/80 backdrop-blur-[12px] rounded-xl border border-white/30
+           text-primary-dark font-medium transition-all duration-200
+           hover:bg-white/90 hover:shadow-glass active:scale-[0.98];
+  }
+
+  /* Primary Button */
+  .btn-primary {
+    @apply px-6 py-3 bg-transparent border border-primary text-primary rounded-xl font-medium
+           transition-all duration-200 hover:border-primary-light
+           active:scale-[0.98] focus:outline-none focus-visible:ring-2
+           focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
+
+  /* Accent Button */
+  .btn-accent {
+    @apply px-6 py-3 bg-transparent border border-accent text-accent rounded-xl font-medium
+           transition-all duration-200 hover:border-accent-light
+           active:scale-[0.98] focus:outline-none focus-visible:ring-2
+           focus-visible:ring-accent focus-visible:ring-offset-2;
+  }
+
+  /* Glass Input */
+  .input-glass {
+    @apply w-full px-4 py-3 bg-white/60 backdrop-blur-[8px] rounded-xl
+           border border-white/30 text-primary-dark placeholder:text-primary-dark/40
+           transition-all duration-200 focus:outline-none focus:bg-white/80
+           focus:border-primary/30 focus:ring-2 focus:ring-primary/10;
+  }
+
+  /* Stats Card */
+  .stats-card {
+    @apply glass-card p-6 space-y-3;
+  }
+
+  /* Sidebar Item */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-primary-dark/70
+           font-medium transition-all duration-200 hover:text-primary;
+  }
+
+  .sidebar-item-active {
+    @apply sidebar-item bg-transparent text-primary border border-primary/20;
+  }
+}
+
+@layer utilities {
+  /* Glass Gradient Background */
+  .bg-glass-gradient {
+    background: linear-gradient(135deg, rgba(240, 253, 250, 0.9) 0%, rgba(204, 251, 241, 0.6) 50%, rgba(153, 246, 228, 0.3) 100%);
+  }
+
+  /* Mesh Gradient */
+  .bg-mesh {
+    background-color: #F0FDFA;
+    background-image:
+      radial-gradient(at 40% 20%, rgba(20, 184, 166, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(3, 105, 161, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(212, 175, 55, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(15, 118, 110, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(20, 184, 166, 0.12) 0px, transparent 50%);
+  }
+
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  /* Glow Effect */
+  .glow {
+    box-shadow: 0 0 40px rgba(20, 184, 166, 0.3);
+  }
+
+  /* Floating Animation */
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Shimmer Loading */
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-primary-50 rounded;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-200 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-300;
+}
+
+/* Focus States */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Recharts Overrides */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-surface {
+  overflow: visible;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(15, 118, 110, 0.1);
+}
