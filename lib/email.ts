@@ -113,15 +113,12 @@ export async function sendVerificationEmail(email: string, code: string): Promis
     console.log('Gmail failed, trying Resend...')
   }
 
-  // Try Resend with verified domain
-  if (process.env.RESEND_DOMAIN) {
-    const resendResult = await sendWithResend(email, subject, html)
-    if (resendResult.success) {
-      return resendResult
-    }
+  // Try Resend (uses resend.dev if no custom domain)
+  if (process.env.RESEND_API_KEY) {
+    return await sendWithResend(email, subject, html)
   }
 
-  return { success: false, error: 'Email service not configured. Please set GMAIL_USER + GMAIL_APP_PASSWORD or RESEND_DOMAIN.' }
+  return { success: false, error: 'Email service not configured. Please set RESEND_API_KEY or GMAIL_USER + GMAIL_APP_PASSWORD.' }
 }
 
 export async function sendTeamInviteEmail(
@@ -180,8 +177,8 @@ export async function sendTeamInviteEmail(
     }
   }
 
-  // Try Resend
-  if (process.env.RESEND_DOMAIN) {
+  // Try Resend (uses resend.dev if no custom domain)
+  if (process.env.RESEND_API_KEY) {
     return await sendWithResend(email, subject, html)
   }
 
