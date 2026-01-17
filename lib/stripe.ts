@@ -1,13 +1,27 @@
 import Stripe from 'stripe'
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not set')
+// Lazy-init Stripe to avoid build errors when API key is not set
+let stripeInstance: Stripe | null = null
+export function getStripe(): Stripe {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set')
+  }
+  if (!stripeInstance) {
+    stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-12-15.clover',
+      typescript: true,
+    })
+  }
+  return stripeInstance
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2025-12-15.clover',
-  typescript: true,
-})
+// Keep backward compatibility
+export const stripe = {
+  get checkout() { return getStripe().checkout },
+  get subscriptions() { return getStripe().subscriptions },
+  get customers() { return getStripe().customers },
+  get webhooks() { return getStripe().webhooks },
+}
 
 export const STRIPE_PRICES = {
   STARTER: process.env.STRIPE_PRICE_STARTER,
