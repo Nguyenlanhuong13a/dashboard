@@ -83,19 +83,19 @@ export function SettingsTab({
   return (
     <div className="space-y-6">
       {/* Profile Section */}
-      <div className="glass-card p-6">
+      <div className="border border-gray-200 rounded bg-white p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-sm font-semibold text-primary-dark flex items-center gap-2">
-            <User className="h-4 w-4 text-primary" /> Profile
+          <h2 className="font-display text-sm font-semibold text-gray-900 flex items-center gap-2">
+            <User className="h-4 w-4 text-gray-600" /> Profile
           </h2>
           <div className="flex items-center gap-2 text-xs">
             {profileSaving && (
-              <span className="flex items-center gap-1 text-primary-dark/50">
+              <span className="flex items-center gap-1 text-gray-400">
                 <Loader2 className="h-3 w-3 animate-spin" /> Saving...
               </span>
             )}
             {profileSaved && !profileSaving && (
-              <span className="flex items-center gap-1 text-primary">
+              <span className="flex items-center gap-1 text-gray-600">
                 <Check className="h-3 w-3" /> Saved
               </span>
             )}
@@ -103,7 +103,7 @@ export function SettingsTab({
         </div>
 
         {profileError && (
-          <div className="mb-5 p-4 bg-red-50/80 backdrop-blur-sm border border-red-200/50 rounded-xl flex items-start gap-2">
+          <div className="mb-5 p-4 bg-red-50 border border-red-200 rounded flex items-start gap-2">
             <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 shrink-0" />
             <p className="text-sm text-red-600">{profileError}</p>
           </div>
@@ -117,17 +117,17 @@ export function SettingsTab({
                 <img
                   src={user.image}
                   alt="Profile"
-                  className="w-20 h-20 rounded-2xl object-cover border-2 border-white/50 shadow-soft"
+                  className="w-20 h-20 rounded object-cover border border-gray-200"
                 />
               ) : (
-                <div className="w-20 h-20 rounded-2xl border-2 border-primary/20 flex items-center justify-center text-primary text-2xl font-display font-medium bg-primary/5">
+                <div className="w-20 h-20 rounded border border-gray-200 flex items-center justify-center text-gray-600 text-2xl font-display font-medium bg-gray-50">
                   {profileForm.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                 </div>
               )}
               <button
                 onClick={() => avatarInputRef.current?.click()}
                 disabled={avatarUploading}
-                className="absolute inset-0 rounded-2xl bg-primary-dark/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                className="absolute inset-0 rounded bg-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
                 aria-label="Change profile photo"
               >
                 {avatarUploading ? (
@@ -148,13 +148,13 @@ export function SettingsTab({
               <button
                 onClick={() => avatarInputRef.current?.click()}
                 disabled={avatarUploading}
-                className="text-xs text-primary hover:text-primary-light transition-colors cursor-pointer"
+                className="text-xs text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
               >
                 {user.image ? 'Change' : 'Upload'}
               </button>
               {user.image && (
                 <>
-                  <span className="text-primary-dark/20">|</span>
+                  <span className="text-gray-300">|</span>
                   <button
                     onClick={onRemoveAvatar}
                     disabled={avatarUploading}
@@ -170,7 +170,7 @@ export function SettingsTab({
           {/* Form Fields */}
           <div className="flex-1 space-y-4">
             <div>
-              <label htmlFor="profile-name" className="block text-xs text-primary-dark/60 mb-1.5">
+              <label htmlFor="profile-name" className="block text-xs text-gray-500 mb-1.5">
                 Full Name
               </label>
               <input
@@ -184,7 +184,7 @@ export function SettingsTab({
             </div>
 
             <div>
-              <label htmlFor="profile-email" className="block text-xs text-primary-dark/60 mb-1.5">
+              <label htmlFor="profile-email" className="block text-xs text-gray-500 mb-1.5">
                 Email
               </label>
               <input
@@ -192,14 +192,14 @@ export function SettingsTab({
                 type="email"
                 value={user.email}
                 disabled
-                className="w-full px-4 py-3 rounded-xl bg-primary/5 border border-primary/10 text-primary-dark/50 cursor-not-allowed"
+                className="w-full px-4 py-3 rounded bg-gray-50 border border-gray-200 text-gray-400 cursor-not-allowed"
               />
-              <p className="text-xs text-primary-dark/40 mt-1">Email cannot be changed</p>
+              <p className="text-xs text-gray-400 mt-1">Email cannot be changed</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="profile-phone" className="block text-xs text-primary-dark/60 mb-1.5 flex items-center gap-1">
+                <label htmlFor="profile-phone" className="block text-xs text-gray-500 mb-1.5 flex items-center gap-1">
                   <Phone className="h-3 w-3" /> Phone
                 </label>
                 <input
@@ -212,7 +212,7 @@ export function SettingsTab({
                 />
               </div>
               <div>
-                <label htmlFor="profile-license" className="block text-xs text-primary-dark/60 mb-1.5 flex items-center gap-1">
+                <label htmlFor="profile-license" className="block text-xs text-gray-500 mb-1.5 flex items-center gap-1">
                   <BadgeCheck className="h-3 w-3" /> License Number
                 </label>
                 <input
@@ -226,8 +226,8 @@ export function SettingsTab({
               </div>
             </div>
 
-            <div className="pt-2 flex items-center gap-4 text-xs text-primary-dark/40">
-              <span>Role: <span className="text-primary-dark/70 font-medium">{user.role}</span></span>
+            <div className="pt-2 flex items-center gap-4 text-xs text-gray-400">
+              <span>Role: <span className="text-gray-600 font-medium">{user.role}</span></span>
               <span>•</span>
               <span>Changes save automatically</span>
             </div>
@@ -236,16 +236,16 @@ export function SettingsTab({
       </div>
 
       {/* Current Plan & Usage */}
-      <div className="glass-card p-6">
+      <div className="border border-gray-200 rounded bg-white p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-sm font-semibold text-primary-dark flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-primary" /> Current Plan
+          <h2 className="font-display text-sm font-semibold text-gray-900 flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-gray-600" /> Current Plan
           </h2>
-          <span className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
-            subscriptionData.subscription.plan === 'FREE' ? 'bg-primary-dark/5 text-primary-dark/70' :
-            subscriptionData.subscription.plan === 'STARTER' ? 'bg-primary/10 text-primary' :
-            subscriptionData.subscription.plan === 'PROFESSIONAL' ? 'bg-accent/10 text-accent' :
-            'bg-accent-gold/10 text-accent-gold'
+          <span className={`px-3 py-1.5 rounded text-xs font-medium ${
+            subscriptionData.subscription.plan === 'FREE' ? 'bg-gray-100 text-gray-600' :
+            subscriptionData.subscription.plan === 'STARTER' ? 'bg-gray-100 text-gray-700' :
+            subscriptionData.subscription.plan === 'PROFESSIONAL' ? 'bg-gray-100 text-gray-800' :
+            'bg-amber-50 text-amber-600'
           }`}>
             {subscriptionData.subscription.plan === 'FREE' && <span>Free Plan</span>}
             {subscriptionData.subscription.plan === 'STARTER' && <span>Starter - $29/mo</span>}
@@ -261,66 +261,66 @@ export function SettingsTab({
         </div>
 
         {subscriptionData.subscription.plan === 'FREE' && (
-          <div className="p-4 bg-accent-gold/10 border border-accent-gold/20 rounded-xl flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-accent-gold mt-0.5 shrink-0" />
+          <div className="p-4 bg-amber-50 border border-amber-200 rounded flex items-start gap-3">
+            <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
             <div>
-              <p className="text-sm text-primary-dark font-medium">Upgrade to unlock more features</p>
-              <p className="text-xs text-primary-dark/60 mt-0.5">Get more properties, leads, and advanced analytics</p>
+              <p className="text-sm text-gray-900 font-medium">Upgrade to unlock more features</p>
+              <p className="text-xs text-gray-500 mt-0.5">Get more properties, leads, and advanced analytics</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Credits Section */}
-      <div className="glass-card p-6">
+      <div className="border border-gray-200 rounded bg-white p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display text-sm font-semibold text-primary-dark flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" /> Credits
+          <h2 className="font-display text-sm font-semibold text-gray-900 flex items-center gap-2">
+            <Zap className="h-4 w-4 text-gray-600" /> Credits
           </h2>
-          <button onClick={onBuyCredits} className="text-xs text-primary hover:text-primary-light font-medium cursor-pointer">
+          <button onClick={onBuyCredits} className="text-xs text-gray-600 hover:text-gray-900 font-medium cursor-pointer">
             Buy More
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 bg-primary/5 rounded-xl">
+          <div className="p-4 bg-gray-50 rounded">
             <div className="flex items-center gap-2 mb-2">
-              <Brain className="h-4 w-4 text-primary" />
-              <span className="text-xs text-primary-dark/70 font-medium">AI Credits</span>
+              <Brain className="h-4 w-4 text-gray-600" />
+              <span className="text-xs text-gray-600 font-medium">AI Credits</span>
             </div>
-            <p className="font-display text-xl font-semibold text-primary-dark">0</p>
-            <p className="text-xs text-primary-dark/50">For lead scoring</p>
+            <p className="font-display text-xl font-semibold text-gray-900">0</p>
+            <p className="text-xs text-gray-400">For lead scoring</p>
           </div>
-          <div className="p-4 bg-primary/5 rounded-xl">
+          <div className="p-4 bg-gray-50 rounded">
             <div className="flex items-center gap-2 mb-2">
-              <Mail className="h-4 w-4 text-primary" />
-              <span className="text-xs text-primary-dark/70 font-medium">Email Credits</span>
+              <Mail className="h-4 w-4 text-gray-600" />
+              <span className="text-xs text-gray-600 font-medium">Email Credits</span>
             </div>
-            <p className="font-display text-xl font-semibold text-primary-dark">0</p>
-            <p className="text-xs text-primary-dark/50">For campaigns</p>
+            <p className="font-display text-xl font-semibold text-gray-900">0</p>
+            <p className="text-xs text-gray-400">For campaigns</p>
           </div>
-          <div className="p-4 bg-primary/5 rounded-xl">
+          <div className="p-4 bg-gray-50 rounded">
             <div className="flex items-center gap-2 mb-2">
-              <Target className="h-4 w-4 text-primary" />
-              <span className="text-xs text-primary-dark/70 font-medium">Lead Credits</span>
+              <Target className="h-4 w-4 text-gray-600" />
+              <span className="text-xs text-gray-600 font-medium">Lead Credits</span>
             </div>
-            <p className="font-display text-xl font-semibold text-primary-dark">0</p>
-            <p className="text-xs text-primary-dark/50">For marketplace</p>
+            <p className="font-display text-xl font-semibold text-gray-900">0</p>
+            <p className="text-xs text-gray-400">For marketplace</p>
           </div>
         </div>
-        <div className="mt-4 p-4 bg-primary/5 rounded-xl">
-          <h3 className="text-xs font-medium text-primary-dark/70 mb-3">Credit Packages</h3>
+        <div className="mt-4 p-4 bg-gray-50 rounded">
+          <h3 className="text-xs font-medium text-gray-600 mb-3">Credit Packages</h3>
           <div className="grid grid-cols-3 gap-3">
-            <button onClick={() => onQuickBuyCredits('AI', 50)} className="glass-card-hover p-3 text-center">
-              <p className="font-display text-sm font-semibold text-primary-dark">50 AI</p>
-              <p className="text-xs text-primary-dark/50">$9.99</p>
+            <button onClick={() => onQuickBuyCredits('AI', 50)} className="border border-gray-200 rounded bg-white hover:border-gray-300 p-3 text-center cursor-pointer transition-colors">
+              <p className="font-display text-sm font-semibold text-gray-900">50 AI</p>
+              <p className="text-xs text-gray-400">$9.99</p>
             </button>
-            <button onClick={() => onQuickBuyCredits('EMAIL', 500)} className="glass-card-hover p-3 text-center">
-              <p className="font-display text-sm font-semibold text-primary-dark">500 Email</p>
-              <p className="text-xs text-primary-dark/50">$14.99</p>
+            <button onClick={() => onQuickBuyCredits('EMAIL', 500)} className="border border-gray-200 rounded bg-white hover:border-gray-300 p-3 text-center cursor-pointer transition-colors">
+              <p className="font-display text-sm font-semibold text-gray-900">500 Email</p>
+              <p className="text-xs text-gray-400">$14.99</p>
             </button>
-            <button onClick={() => onQuickBuyCredits('LEAD', 10)} className="glass-card-hover p-3 text-center">
-              <p className="font-display text-sm font-semibold text-primary-dark">10 Lead</p>
-              <p className="text-xs text-primary-dark/50">$19.99</p>
+            <button onClick={() => onQuickBuyCredits('LEAD', 10)} className="border border-gray-200 rounded bg-white hover:border-gray-300 p-3 text-center cursor-pointer transition-colors">
+              <p className="font-display text-sm font-semibold text-gray-900">10 Lead</p>
+              <p className="text-xs text-gray-400">$19.99</p>
             </button>
           </div>
         </div>
@@ -328,42 +328,42 @@ export function SettingsTab({
 
       {/* Pricing Cards */}
       <div>
-        <h2 className="font-display text-sm font-semibold text-primary-dark mb-5 flex items-center gap-2">
-          <Crown className="h-4 w-4 text-primary" /> Available Plans
+        <h2 className="font-display text-sm font-semibold text-gray-900 mb-5 flex items-center gap-2">
+          <Crown className="h-4 w-4 text-gray-600" /> Available Plans
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {subscriptionData.plans.map((plan) => (
             <div
               key={plan.name}
-              className={`glass-card p-5 ${
-                plan.current ? 'ring-2 ring-primary' : ''
+              className={`border border-gray-200 rounded bg-white p-5 ${
+                plan.current ? 'ring-2 ring-gray-900' : ''
               }`}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-display font-semibold text-primary-dark">{plan.name}</h3>
+                <h3 className="font-display font-semibold text-gray-900">{plan.name}</h3>
                 {plan.current && (
-                  <span className="text-xs bg-primary text-white px-2.5 py-1 rounded-lg">Current</span>
+                  <span className="text-xs bg-gray-900 text-white px-2.5 py-1 rounded">Current</span>
                 )}
               </div>
               <div className="mb-5">
-                <span className="font-display text-2xl font-bold text-primary-dark">${plan.price}</span>
-                <span className="text-sm text-primary-dark/50">/mo</span>
+                <span className="font-display text-2xl font-bold text-gray-900">${plan.price}</span>
+                <span className="text-sm text-gray-400">/mo</span>
               </div>
               <ul className="space-y-2.5 mb-5 text-sm">
-                <li className="flex items-center gap-2 text-primary-dark/70">
-                  <Check className="h-4 w-4 text-primary" />
+                <li className="flex items-center gap-2 text-gray-600">
+                  <Check className="h-4 w-4 text-gray-600" />
                   {plan.limits.properties === -1 ? 'Unlimited' : plan.limits.properties} properties
                 </li>
-                <li className="flex items-center gap-2 text-primary-dark/70">
-                  <Check className="h-4 w-4 text-primary" />
+                <li className="flex items-center gap-2 text-gray-600">
+                  <Check className="h-4 w-4 text-gray-600" />
                   {plan.limits.leads === -1 ? 'Unlimited' : plan.limits.leads} leads
                 </li>
-                <li className="flex items-center gap-2 text-primary-dark/70">
-                  <Check className="h-4 w-4 text-primary" />
+                <li className="flex items-center gap-2 text-gray-600">
+                  <Check className="h-4 w-4 text-gray-600" />
                   {plan.limits.documents === -1 ? 'Unlimited' : plan.limits.documents} documents
                 </li>
-                <li className="flex items-center gap-2 text-primary-dark/70">
-                  <Check className="h-4 w-4 text-primary" />
+                <li className="flex items-center gap-2 text-gray-600">
+                  <Check className="h-4 w-4 text-gray-600" />
                   {plan.limits.teamMembers === -1 ? 'Unlimited' : plan.limits.teamMembers} team member{plan.limits.teamMembers !== 1 ? 's' : ''}
                 </li>
               </ul>
@@ -371,10 +371,10 @@ export function SettingsTab({
                 <button
                   onClick={() => onUpgradePlan(plan.name)}
                   disabled={upgrading}
-                  className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                  className={`w-full py-2.5 rounded text-sm font-medium transition-all cursor-pointer ${
                     plan.name === 'PROFESSIONAL'
-                      ? 'btn-primary'
-                      : 'bg-primary/5 text-primary hover:bg-primary/10'
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                   } disabled:opacity-50`}
                 >
                   {upgrading ? 'Processing...' : plan.price === 0 ? 'Downgrade' : 'Upgrade'}
@@ -386,29 +386,29 @@ export function SettingsTab({
       </div>
 
       {/* Security Section */}
-      <div className="glass-card p-6">
-        <h2 className="font-display text-sm font-semibold text-primary-dark mb-5 flex items-center gap-2">
-          <Shield className="h-4 w-4 text-primary" /> Security
+      <div className="border border-gray-200 rounded bg-white p-6">
+        <h2 className="font-display text-sm font-semibold text-gray-900 mb-5 flex items-center gap-2">
+          <Shield className="h-4 w-4 text-gray-600" /> Security
         </h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b border-primary/5">
+          <div className="flex items-center justify-between py-3 border-b border-gray-100">
             <div>
-              <p className="text-sm text-primary-dark">Password</p>
-              <p className="text-xs text-primary-dark/50">Last changed: Never</p>
+              <p className="text-sm text-gray-900">Password</p>
+              <p className="text-xs text-gray-400">Last changed: Never</p>
             </div>
             <button
               onClick={onChangePassword}
-              className="text-sm text-primary border border-primary/20 px-4 py-2 rounded-xl hover:bg-primary/5 transition-colors cursor-pointer"
+              className="text-sm text-gray-600 border border-gray-200 px-4 py-2 rounded hover:bg-gray-50 transition-colors cursor-pointer"
             >
               Change
             </button>
           </div>
           <div className="flex items-center justify-between py-3">
             <div>
-              <p className="text-sm text-primary-dark">Two-Factor Authentication</p>
-              <p className="text-xs text-primary-dark/50">Add an extra layer of security</p>
+              <p className="text-sm text-gray-900">Two-Factor Authentication</p>
+              <p className="text-xs text-gray-400">Add an extra layer of security</p>
             </div>
-            <span className="text-xs text-primary-dark/40">Coming soon</span>
+            <span className="text-xs text-gray-400">Coming soon</span>
           </div>
         </div>
       </div>

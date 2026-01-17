@@ -44,43 +44,43 @@ export function CreateTeamModal({ onClose, onSuccess }: CreateTeamModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md glass-card animate-in fade-in zoom-in-95 duration-200">
-        <div className="border-b border-primary/10 px-6 py-4 flex items-center justify-between">
-          <h2 className="font-display text-lg font-semibold text-primary-dark">Create Team</h2>
-          <button onClick={onClose} className="p-2 rounded-xl hover:bg-primary/10 transition-colors cursor-pointer" aria-label="Close"><X className="h-5 w-5 text-primary-dark/40" /></button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md border border-gray-200 rounded bg-white animate-in fade-in zoom-in-95 duration-200">
+        <div className="border-b border-gray-200 px-4 py-2.5 flex items-center justify-between">
+          <h2 className="font-display text-lg font-semibold text-gray-900">Create Team</h2>
+          <button onClick={onClose} className="p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer" aria-label="Close"><X className="h-5 w-5 text-gray-400" /></button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 border border-red-200 rounded-xl bg-red-50 flex items-start gap-2">
+            <div className="p-3 border border-red-200 rounded bg-red-50 flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 shrink-0" />
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Team Name *</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Team Name *</label>
             <input
               type="text"
               required
               minLength={2}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="input-glass"
+              className="input"
               placeholder="My Real Estate Team"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Description</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="input-glass resize-none"
+              className="input resize-none"
               rows={3}
               placeholder="A brief description of your team..."
             />
           </div>
-          <div className="flex gap-3 pt-4 border-t border-primary/10">
-            <button type="button" onClick={onClose} className="btn-glass flex-1 cursor-pointer">Cancel</button>
+          <div className="flex gap-3 pt-4 border-t border-gray-200">
+            <button type="button" onClick={onClose} className="border border-gray-200 rounded bg-white hover:border-gray-300 px-4 py-2.5 flex-1 cursor-pointer transition-colors">Cancel</button>
             <button type="submit" disabled={loading} className="btn-primary flex-1 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer">
               {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating...</> : 'Create Team'}
             </button>

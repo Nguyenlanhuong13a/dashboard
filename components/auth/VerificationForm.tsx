@@ -122,32 +122,32 @@ export function VerificationForm({ email, onBack }: VerificationFormProps) {
     <>
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm text-primary-dark/60 hover:text-primary transition-colors mb-8 cursor-pointer"
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors mb-8 cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to login
       </button>
 
-      <div className="mb-8 text-center lg:text-left">
-        <div className="flex items-center justify-center mb-6 mx-auto lg:mx-0">
-          <Mail className="w-8 h-8 text-primary" />
+      <div className="mb-8">
+        <div className="flex items-center justify-center mb-6 mx-auto lg:mx-0 w-12 h-12 border border-gray-200 rounded">
+          <Mail className="w-5 h-5 text-gray-400" />
         </div>
-        <h2 className="font-display text-2xl font-semibold text-primary-dark mb-2">Check your email</h2>
-        <p className="text-primary-dark/60">
+        <h2 className="font-display text-2xl font-semibold text-primary mb-2">Check your email</h2>
+        <p className="text-gray-500 text-sm">
           We sent a verification code to<br />
           <span className="font-medium text-primary">{email}</span>
         </p>
       </div>
 
-      <div className="glass-card p-6">
+      <div className="border border-gray-200 rounded p-6">
         {error && (
-          <div className="mb-5 p-4 rounded-xl bg-red-50/80 backdrop-blur-sm border border-red-200/50">
+          <div className="mb-5 p-3 rounded border border-red-200 bg-white">
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
         {/* Code inputs */}
-        <div className="flex gap-3 justify-center mb-6">
+        <div className="flex gap-2 justify-center mb-6">
           {code.map((digit, i) => (
             <input
               key={i}
@@ -159,7 +159,7 @@ export function VerificationForm({ email, onBack }: VerificationFormProps) {
               onChange={(e) => handleCodeChange(i, e.target.value)}
               onKeyDown={(e) => handleCodeKeyDown(i, e)}
               onPaste={handleCodePaste}
-              className="w-12 h-14 text-center text-xl font-display font-semibold bg-white/60 backdrop-blur-[8px] border border-white/30 rounded-xl text-primary-dark focus:outline-none focus:bg-white/80 focus:border-primary/30 focus:ring-2 focus:ring-primary/10 transition-all"
+              className="w-11 h-12 text-center text-lg font-display font-semibold border border-gray-200 rounded text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
             />
           ))}
         </div>
@@ -174,16 +174,16 @@ export function VerificationForm({ email, onBack }: VerificationFormProps) {
         </button>
 
         <div className="mt-5 text-center">
-          <span className="text-sm text-primary-dark/60">
+          <span className="text-sm text-gray-500">
             Didn't receive the code?{' '}
           </span>
           {resendCooldown > 0 ? (
-            <span className="text-sm text-primary-dark/40">Resend in {resendCooldown}s</span>
+            <span className="text-sm text-gray-400">Resend in {resendCooldown}s</span>
           ) : (
             <button
               onClick={handleResendCode}
               disabled={loading}
-              className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary-light transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-dark transition-colors cursor-pointer"
             >
               <RefreshCw className="w-3 h-3" />
               Resend

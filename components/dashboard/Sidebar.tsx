@@ -74,7 +74,7 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-primary-dark/20 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/10 lg:hidden"
           onClick={() => onMobileToggle(false)}
           aria-hidden="true"
         />
@@ -84,31 +84,29 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
       <aside
         className={`
           fixed left-0 top-0 z-50 h-screen
-          bg-white/70 backdrop-blur-[20px] border-r border-white/30
-          flex flex-col transition-all duration-300 ease-out
+          bg-white border-r border-gray-200
+          flex flex-col transition-all duration-200
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0
         `}
-        style={{ width: collapsed ? 80 : 260 }}
+        style={{ width: collapsed ? 72 : 240 }}
       >
         {/* Logo */}
-        <div className={`flex items-center h-16 border-b border-primary/5 ${collapsed ? 'justify-center px-4' : 'justify-between px-5'}`}>
+        <div className={`flex items-center h-14 border-b border-gray-200 ${collapsed ? 'justify-center px-3' : 'justify-between px-4'}`}>
           <Link
             href="/"
-            className="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="flex items-center gap-2.5 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            <div className="flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-primary" aria-hidden="true" />
-            </div>
+            <Building2 className="w-5 h-5 text-primary" aria-hidden="true" />
             {!collapsed && (
-              <span className="font-display text-lg font-semibold text-primary-dark">RealEstate</span>
+              <span className="font-display text-base font-semibold text-primary">RealEstate</span>
             )}
           </Link>
           <div className="flex items-center gap-1">
             <button
               onClick={() => onMobileToggle(false)}
               aria-label="Close menu"
-              className="lg:hidden p-2 rounded-xl text-primary-dark/50 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+              className="lg:hidden p-1.5 rounded text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -116,7 +114,7 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
               <button
                 onClick={() => onCollapse(true)}
                 aria-label="Collapse sidebar"
-                className="hidden lg:block p-2 rounded-xl text-primary-dark/50 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+                className="hidden lg:block p-1.5 rounded text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" aria-hidden="true" />
               </button>
@@ -129,15 +127,15 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
           <button
             onClick={() => onCollapse(false)}
             aria-label="Expand sidebar"
-            className="mx-auto mt-4 p-2 rounded-xl text-primary-dark/50 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+            className="mx-auto mt-3 p-1.5 rounded text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4 rotate-180" aria-hidden="true" />
           </button>
         )}
 
         {/* Navigation */}
-        <nav className={`flex-1 overflow-y-auto py-5 ${collapsed ? 'px-3' : 'px-4'}`} aria-label="Main navigation">
-          <div className="space-y-1">
+        <nav className={`flex-1 overflow-y-auto py-4 ${collapsed ? 'px-2' : 'px-3'}`} aria-label="Main navigation">
+          <div className="space-y-0.5">
             {navItems.map((item) => {
               const isActive = activeTab === item.id
               return (
@@ -147,16 +145,16 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
                   aria-current={isActive ? 'page' : undefined}
                   title={collapsed ? item.label : undefined}
                   className={`
-                    w-full flex items-center rounded-xl font-medium transition-all duration-200 cursor-pointer
-                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
-                    ${collapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}
+                    w-full flex items-center rounded text-sm font-medium transition-colors duration-150 cursor-pointer
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                    ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2'}
                     ${isActive
-                      ? 'bg-transparent border border-primary text-primary'
-                      : 'text-primary-dark/60 hover:text-primary'
+                      ? 'bg-gray-50 text-primary border-l-2 border-primary'
+                      : 'text-gray-600 hover:text-primary hover:bg-gray-50'
                     }
                   `}
                 >
-                  <item.icon className={`${collapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]'}`} aria-hidden="true" />
+                  <item.icon className="w-[18px] h-[18px]" aria-hidden="true" />
                   {!collapsed && <span>{item.label}</span>}
                 </button>
               )
@@ -165,8 +163,8 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
         </nav>
 
         {/* Bottom section */}
-        <div className={`py-4 border-t border-primary/5 ${collapsed ? 'px-3' : 'px-4'}`}>
-          <div className="space-y-1">
+        <div className={`py-3 border-t border-gray-200 ${collapsed ? 'px-2' : 'px-3'}`}>
+          <div className="space-y-0.5">
             {bottomItems.map((item) => {
               const isActive = activeTab === item.id
               return (
@@ -176,16 +174,16 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
                   aria-current={isActive ? 'page' : undefined}
                   title={collapsed ? item.label : undefined}
                   className={`
-                    w-full flex items-center rounded-xl font-medium transition-all duration-200 cursor-pointer
-                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
-                    ${collapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}
+                    w-full flex items-center rounded text-sm font-medium transition-colors duration-150 cursor-pointer
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                    ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2'}
                     ${isActive
-                      ? 'bg-transparent border border-primary text-primary'
-                      : 'text-primary-dark/60 hover:text-primary'
+                      ? 'bg-gray-50 text-primary border-l-2 border-primary'
+                      : 'text-gray-600 hover:text-primary hover:bg-gray-50'
                     }
                   `}
                 >
-                  <item.icon className={`${collapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]'}`} aria-hidden="true" />
+                  <item.icon className="w-[18px] h-[18px]" aria-hidden="true" />
                   {!collapsed && <span>{item.label}</span>}
                 </button>
               )
@@ -193,18 +191,18 @@ export function Sidebar({ activeTab, onTabChange, onLogout, collapsed, onCollaps
           </div>
 
           {/* Sign out */}
-          <div className="mt-4 pt-4 border-t border-primary/5">
+          <div className="mt-3 pt-3 border-t border-gray-100">
             <button
               onClick={onLogout}
               title={collapsed ? 'Sign out' : undefined}
               className={`
-                w-full flex items-center rounded-xl font-medium text-primary-dark/50
-                hover:text-red-500 hover:bg-red-50/50 transition-all duration-200 cursor-pointer
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2
-                ${collapsed ? 'justify-center p-3' : 'gap-3 px-4 py-3'}
+                w-full flex items-center rounded text-sm font-medium text-gray-500
+                hover:text-red-600 hover:bg-red-50 transition-colors duration-150 cursor-pointer
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500
+                ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2'}
               `}
             >
-              <LogOut className={`${collapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]'}`} aria-hidden="true" />
+              <LogOut className="w-[18px] h-[18px]" aria-hidden="true" />
               {!collapsed && <span>Sign out</span>}
             </button>
           </div>

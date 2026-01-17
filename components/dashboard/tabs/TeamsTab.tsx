@@ -43,27 +43,27 @@ export function TeamsTab({ teams, onCreateTeam, onInviteMember }: TeamsTabProps)
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-display text-lg font-semibold text-primary-dark">Team Management</h2>
-          <p className="text-sm text-primary-dark/60">Collaborate with your team members</p>
+          <h2 className="font-display text-lg font-semibold text-gray-900">Team Management</h2>
+          <p className="text-sm text-gray-500">Collaborate with your team members</p>
         </div>
         <button
           onClick={onCreateTeam}
-          className="btn-primary flex items-center gap-2 cursor-pointer"
+          className="bg-gray-900 text-white hover:bg-gray-800 flex items-center gap-2 px-4 py-2.5 rounded text-sm font-medium cursor-pointer transition-colors"
         >
           <Plus className="h-4 w-4" /> Create Team
         </button>
       </div>
 
       {teams.length === 0 ? (
-        <div className="glass-card p-10 text-center">
+        <div className="border border-gray-200 rounded bg-white p-10 text-center">
           <div className="flex items-center justify-center mx-auto mb-4">
-            <UsersRound className="h-8 w-8 text-primary/40" />
+            <UsersRound className="h-8 w-8 text-gray-300" />
           </div>
-          <h3 className="font-display text-sm font-semibold text-primary-dark mb-1">No teams yet</h3>
-          <p className="text-sm text-primary-dark/50 mb-5">Create a team to start collaborating with others</p>
+          <h3 className="font-display text-sm font-semibold text-gray-900 mb-1">No teams yet</h3>
+          <p className="text-sm text-gray-400 mb-5">Create a team to start collaborating with others</p>
           <button
             onClick={onCreateTeam}
-            className="btn-primary inline-flex items-center gap-2 cursor-pointer"
+            className="bg-gray-900 text-white hover:bg-gray-800 inline-flex items-center gap-2 px-4 py-2.5 rounded text-sm font-medium cursor-pointer transition-colors"
           >
             <Plus className="h-4 w-4" /> Create Your First Team
           </button>
@@ -71,50 +71,50 @@ export function TeamsTab({ teams, onCreateTeam, onInviteMember }: TeamsTabProps)
       ) : (
         <div className="space-y-4">
           {teams.map((team) => (
-            <div key={team.id} className="glass-card overflow-hidden">
-              <div className="px-5 py-4 border-b border-primary/5 flex items-center justify-between">
+            <div key={team.id} className="border border-gray-200 rounded bg-white overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center justify-center">
-                    <UsersRound className="h-5 w-5 text-primary" />
+                    <UsersRound className="h-5 w-5 text-gray-600" />
                   </div>
                   <div>
-                    <h3 className="font-display text-sm font-semibold text-primary-dark">{team.name}</h3>
-                    <p className="text-xs text-primary-dark/50">{team.members.length} members</p>
+                    <h3 className="font-display text-sm font-semibold text-gray-900">{team.name}</h3>
+                    <p className="text-xs text-gray-400">{team.members.length} members</p>
                   </div>
                 </div>
                 <button
                   onClick={() => onInviteMember(team.id)}
-                  className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-primary border border-primary/30 rounded-xl hover:border-primary transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-gray-600 border border-gray-200 rounded hover:border-gray-300 transition-colors cursor-pointer"
                 >
                   <UserPlus className="h-3.5 w-3.5" /> Invite
                 </button>
               </div>
-              <div className="divide-y divide-primary/5">
+              <div className="divide-y divide-gray-100">
                 {team.members.map((member) => (
-                  <div key={member.id} className="px-5 py-4 flex items-center justify-between hover:bg-primary/5 transition-colors">
+                  <div key={member.id} className="px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
                     <div className="flex items-center gap-3">
                       {member.user.image ? (
                         <img
                           src={member.user.image}
                           alt=""
-                          className="w-9 h-9 rounded-xl object-cover"
+                          className="w-9 h-9 rounded object-cover"
                         />
                       ) : (
-                        <div className="w-9 h-9 rounded-xl border border-primary/30 flex items-center justify-center text-sm font-medium text-primary">
+                        <div className="w-9 h-9 rounded border border-gray-200 flex items-center justify-center text-sm font-medium text-gray-600">
                           {(member.user.name || member.user.email).charAt(0).toUpperCase()}
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-medium text-primary-dark">
+                        <p className="text-sm font-medium text-gray-900">
                           {member.user.name || member.user.email}
                         </p>
-                        <p className="text-xs text-primary-dark/50">{member.user.email}</p>
+                        <p className="text-xs text-gray-400">{member.user.email}</p>
                       </div>
                     </div>
-                    <span className={`px-2.5 py-1 text-xs rounded-lg border ${
-                      member.role === 'OWNER' ? 'border-primary/30 text-primary' :
-                      member.role === 'ADMIN' ? 'border-accent/30 text-accent' :
-                      'border-primary-dark/20 text-primary-dark/60'
+                    <span className={`px-2.5 py-1 text-xs rounded border ${
+                      member.role === 'OWNER' ? 'border-gray-300 text-gray-700' :
+                      member.role === 'ADMIN' ? 'border-gray-200 text-gray-600' :
+                      'border-gray-200 text-gray-500'
                     }`}>
                       {member.role}
                     </span>
@@ -122,12 +122,12 @@ export function TeamsTab({ teams, onCreateTeam, onInviteMember }: TeamsTabProps)
                 ))}
               </div>
               {team.invites.filter(i => i.status === 'PENDING').length > 0 && (
-                <div className="px-5 py-4 bg-accent-gold/5 border-t border-primary/5">
-                  <p className="text-xs text-primary-dark/60 mb-2">Pending Invites</p>
+                <div className="px-5 py-4 bg-amber-50 border-t border-gray-100">
+                  <p className="text-xs text-gray-500 mb-2">Pending Invites</p>
                   {team.invites.filter(i => i.status === 'PENDING').map((invite) => (
                     <div key={invite.id} className="flex items-center justify-between py-1">
-                      <span className="text-sm text-primary-dark/80">{invite.email}</span>
-                      <span className="text-xs text-accent-gold">Pending</span>
+                      <span className="text-sm text-gray-700">{invite.email}</span>
+                      <span className="text-xs text-amber-600">Pending</span>
                     </div>
                   ))}
                 </div>

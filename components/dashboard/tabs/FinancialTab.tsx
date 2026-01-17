@@ -65,12 +65,12 @@ export function FinancialTab({
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-sm font-semibold text-primary-dark">
-            Transactions <span className="text-primary-dark/50">({transactions.length})</span>
+          <h2 className="font-display text-sm font-semibold text-gray-900">
+            Transactions <span className="text-gray-400">({transactions.length})</span>
           </h2>
           <button
             onClick={onAddTransaction}
-            className="btn-primary flex items-center gap-2 !px-4 !py-2.5 cursor-pointer"
+            className="bg-gray-900 text-white hover:bg-gray-800 flex items-center gap-2 px-4 py-2.5 rounded text-sm font-medium cursor-pointer transition-colors"
           >
             <Plus className="h-4 w-4" /> Add Transaction
           </button>
@@ -79,35 +79,35 @@ export function FinancialTab({
         {transactions.length === 0 ? (
           <EmptyState icon={DollarSign} title="No transactions yet" action={onAddTransaction} actionLabel="Add Transaction" />
         ) : (
-          <div className="glass-card overflow-hidden">
+          <div className="border border-gray-200 rounded bg-white overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-primary/5 border-b border-primary/10">
+              <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="text-left px-5 py-3 font-medium text-primary-dark/70">Date</th>
-                  <th className="text-left px-5 py-3 font-medium text-primary-dark/70">Description</th>
-                  <th className="text-left px-5 py-3 font-medium text-primary-dark/70">Type</th>
-                  <th className="text-left px-5 py-3 font-medium text-primary-dark/70">Property</th>
-                  <th className="text-right px-5 py-3 font-medium text-primary-dark/70">Amount</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-600">Date</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-600">Description</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-600">Type</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-600">Property</th>
+                  <th className="text-right px-5 py-3 font-medium text-gray-600">Amount</th>
                   <th className="px-5 py-3"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-primary/5">
+              <tbody className="divide-y divide-gray-100">
                 {transactions.map((t) => (
-                  <tr key={t.id} className="hover:bg-primary/5 transition-colors">
-                    <td className="px-5 py-3 text-primary-dark/70">{new Date(t.date).toLocaleDateString()}</td>
-                    <td className="px-5 py-3 text-primary-dark">{t.description}</td>
+                  <tr key={t.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-5 py-3 text-gray-500">{new Date(t.date).toLocaleDateString()}</td>
+                    <td className="px-5 py-3 text-gray-900">{t.description}</td>
                     <td className="px-5 py-3">
-                      <span className={`text-xs px-2.5 py-1 rounded-lg ${
+                      <span className={`text-xs px-2.5 py-1 rounded ${
                         t.type === 'INCOME' || t.type === 'COMMISSION'
-                          ? 'bg-primary/10 text-primary'
+                          ? 'bg-gray-100 text-gray-700'
                           : 'bg-red-50 text-red-600'
                       }`}>
                         {t.type}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-primary-dark/60">{t.property?.title || '-'}</td>
+                    <td className="px-5 py-3 text-gray-500">{t.property?.title || '-'}</td>
                     <td className={`px-5 py-3 text-right font-medium ${
-                      t.type === 'EXPENSE' ? 'text-red-600' : 'text-primary'
+                      t.type === 'EXPENSE' ? 'text-red-600' : 'text-gray-700'
                     }`}>
                       {t.type === 'EXPENSE' ? '-' : '+'}${t.amount.toLocaleString()}
                     </td>
@@ -115,13 +115,13 @@ export function FinancialTab({
                       <div className="flex gap-1 justify-end">
                         <button
                           onClick={() => onEditTransaction(t)}
-                          className="p-2 hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
+                          className="p-2 hover:bg-gray-100 rounded transition-colors cursor-pointer"
                         >
-                          <Pencil className="h-3.5 w-3.5 text-primary-dark/50" />
+                          <Pencil className="h-3.5 w-3.5 text-gray-400" />
                         </button>
                         <button
                           onClick={() => onDeleteTransaction(t.id)}
-                          className="p-2 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                          className="p-2 hover:bg-red-50 rounded transition-colors cursor-pointer"
                         >
                           <Trash2 className="h-3.5 w-3.5 text-red-500" />
                         </button>

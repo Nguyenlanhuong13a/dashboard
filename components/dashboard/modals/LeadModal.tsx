@@ -59,29 +59,29 @@ export function LeadModal({ lead, onClose, onSuccess }: LeadModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary-dark/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md max-h-[90vh] overflow-y-auto glass-card animate-in fade-in zoom-in-95 duration-200">
-        <div className="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-primary/10 px-6 py-4 flex items-center justify-between">
-          <h2 className="font-display text-lg font-semibold text-primary-dark">{lead ? 'Edit Lead' : 'Add Lead'}</h2>
-          <button onClick={onClose} className="p-2 rounded-xl hover:bg-primary/10 transition-colors cursor-pointer" aria-label="Close"><X className="h-5 w-5 text-primary-dark/40" /></button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 p-4" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md max-h-[90vh] overflow-y-auto border border-gray-200 rounded bg-white animate-in fade-in zoom-in-95 duration-200">
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-2.5 flex items-center justify-between">
+          <h2 className="font-display text-lg font-semibold text-gray-900">{lead ? 'Edit Lead' : 'Add Lead'}</h2>
+          <button onClick={onClose} className="p-2 rounded hover:bg-gray-100 transition-colors cursor-pointer" aria-label="Close"><X className="h-5 w-5 text-gray-400" /></button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Name *</label>
-            <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="input-glass" placeholder="John Doe" />
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Name *</label>
+            <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="input" placeholder="John Doe" />
           </div>
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Email *</label>
-            <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="input-glass" placeholder="john@example.com" />
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Email *</label>
+            <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="input" placeholder="john@example.com" />
           </div>
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Phone</label>
-            <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="input-glass" placeholder="+1 (555) 000-0000" />
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Phone</label>
+            <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="input" placeholder="+1 (555) 000-0000" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Source</label>
-              <select value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })} className="input-glass">
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Source</label>
+              <select value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })} className="input">
                 <option value="WEBSITE">Website</option>
                 <option value="REFERRAL">Referral</option>
                 <option value="SOCIAL_MEDIA">Social Media</option>
@@ -93,8 +93,8 @@ export function LeadModal({ lead, onClose, onSuccess }: LeadModalProps) {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Priority</label>
-              <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })} className="input-glass">
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Priority</label>
+              <select value={formData.priority} onChange={(e) => setFormData({ ...formData, priority: e.target.value })} className="input">
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
@@ -104,8 +104,8 @@ export function LeadModal({ lead, onClose, onSuccess }: LeadModalProps) {
           </div>
           {lead && (
             <div>
-              <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Status</label>
-              <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="input-glass">
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Status</label>
+              <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })} className="input">
                 <option value="NEW">New</option>
                 <option value="CONTACTED">Contacted</option>
                 <option value="QUALIFIED">Qualified</option>
@@ -118,22 +118,22 @@ export function LeadModal({ lead, onClose, onSuccess }: LeadModalProps) {
           )}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Budget ($)</label>
-              <input type="number" value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} className="input-glass" placeholder="500000" />
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Budget ($)</label>
+              <input type="number" value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} className="input" placeholder="500000" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Preferred Area</label>
-              <input type="text" value={formData.preferredArea} onChange={(e) => setFormData({ ...formData, preferredArea: e.target.value })} className="input-glass" placeholder="Downtown Miami" />
+              <label className="block text-xs font-medium text-gray-600 mb-1.5">Preferred Area</label>
+              <input type="text" value={formData.preferredArea} onChange={(e) => setFormData({ ...formData, preferredArea: e.target.value })} className="input" placeholder="Downtown Miami" />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-primary-dark/60 mb-1.5">Notes</label>
-            <textarea value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} rows={2} className="input-glass resize-none" placeholder="Additional notes about the lead..." />
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Notes</label>
+            <textarea value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} rows={2} className="input resize-none" placeholder="Additional notes about the lead..." />
           </div>
-          <div className="flex gap-3 pt-4 border-t border-primary/10">
-            <button type="button" onClick={onClose} className="btn-glass flex-1 cursor-pointer">Cancel</button>
+          <div className="flex gap-3 pt-4 border-t border-gray-200">
+            <button type="button" onClick={onClose} className="border border-gray-200 rounded bg-white hover:border-gray-300 px-4 py-2.5 flex-1 cursor-pointer transition-colors">Cancel</button>
             <button type="submit" disabled={loading} className="btn-primary flex-1 disabled:opacity-50 cursor-pointer">
-              {loading ? 'Saving…' : lead ? 'Save Changes' : 'Add Lead'}
+              {loading ? 'Saving...' : lead ? 'Save Changes' : 'Add Lead'}
             </button>
           </div>
         </form>

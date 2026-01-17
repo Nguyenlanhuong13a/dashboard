@@ -91,24 +91,24 @@ export function NotificationDropdown({ unreadCount }: NotificationDropdownProps)
         onClick={toggleNotifications}
         aria-label={`Notifications${localUnreadCount > 0 ? `, ${localUnreadCount} unread` : ''}`}
         aria-expanded={showNotifications}
-        className={`relative p-2.5 rounded-xl transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-          showNotifications ? 'text-primary' : 'text-primary-dark/60 hover:text-primary'
+        className={`relative p-2 rounded transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+          showNotifications ? 'text-primary bg-gray-50' : 'text-gray-500 hover:text-primary hover:bg-gray-50'
         }`}
       >
         <Bell className="h-5 w-5" aria-hidden="true" />
         {localUnreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-white" aria-hidden="true" />
+          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent ring-2 ring-white" aria-hidden="true" />
         )}
       </button>
 
       {showNotifications && (
-        <div className="absolute right-0 mt-2 w-80 glass-card overflow-hidden animate-fade-in">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-primary/5">
-            <h2 className="font-display text-sm font-semibold text-primary-dark">Notifications</h2>
+        <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded overflow-hidden animate-fade-in z-50">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+            <h2 className="font-display text-sm font-semibold text-primary">Notifications</h2>
             {localUnreadCount > 0 && (
               <button
                 onClick={markAllRead}
-                className="text-xs font-medium text-primary hover:text-primary-light transition-colors cursor-pointer"
+                className="text-xs font-medium text-accent hover:text-accent-dark transition-colors cursor-pointer"
               >
                 Mark all read
               </button>
@@ -118,36 +118,34 @@ export function NotificationDropdown({ unreadCount }: NotificationDropdownProps)
           <div className="max-h-80 overflow-y-auto overscroll-contain">
             {loadingNotifications ? (
               <div className="px-4 py-8 text-center">
-                <div className="inline-block h-5 w-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+                <div className="inline-block h-5 w-5 border-2 border-gray-200 border-t-primary rounded-full animate-spin" />
               </div>
             ) : notifications.length === 0 ? (
               <div className="px-4 py-8 text-center">
-                <div className="flex items-center justify-center mx-auto mb-3">
-                  <Bell className="h-5 w-5 text-primary/40" />
-                </div>
-                <p className="text-sm text-primary-dark/50">No notifications yet</p>
+                <Bell className="h-5 w-5 text-gray-300 mx-auto mb-2" />
+                <p className="text-sm text-gray-400">No notifications yet</p>
               </div>
             ) : (
-              <div className="divide-y divide-primary/5">
+              <div className="divide-y divide-gray-100">
                 {notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`px-4 py-3 transition-colors hover:bg-primary/5 cursor-pointer ${
-                      notification.read ? '' : 'border-l-2 border-primary'
+                    className={`px-4 py-3 transition-colors hover:bg-gray-50 cursor-pointer ${
+                      notification.read ? '' : 'border-l-2 border-accent'
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className={`mt-1.5 h-2 w-2 rounded-full flex-shrink-0 ${
-                        notification.read ? 'bg-transparent' : 'bg-primary'
+                      <div className={`mt-1.5 h-1.5 w-1.5 rounded-full flex-shrink-0 ${
+                        notification.read ? 'bg-transparent' : 'bg-accent'
                       }`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-primary-dark truncate">
+                        <p className="text-sm font-medium text-primary truncate">
                           {notification.title}
                         </p>
-                        <p className="text-sm text-primary-dark/60 line-clamp-2">
+                        <p className="text-sm text-gray-500 line-clamp-2">
                           {notification.message}
                         </p>
-                        <p className="text-xs text-primary-dark/40 mt-1">
+                        <p className="text-xs text-gray-400 mt-1">
                           {timeAgo(notification.createdAt)}
                         </p>
                       </div>

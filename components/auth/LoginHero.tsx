@@ -43,71 +43,57 @@ export function LoginHero() {
   const testimonial = TESTIMONIALS[currentTestimonial]
 
   return (
-    <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-mesh" />
-
-      {/* Decorative Elements */}
-      <div className="absolute top-20 left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl floating" />
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl floating" style={{ animationDelay: '-3s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-gold/5 rounded-full blur-3xl" />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col justify-between p-12 w-full">
+    <div className="hidden lg:flex lg:w-1/2 border-r border-gray-200">
+      <div className="flex flex-col justify-between p-12 w-full">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-glow">
-            <Building2 className="w-5 h-5 text-white" />
-          </div>
-          <span className="font-display text-xl font-semibold text-primary-dark">RealEstate Pro</span>
+          <Building2 className="w-6 h-6 text-primary" />
+          <span className="font-display text-xl font-semibold text-primary">RealEstate Pro</span>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-lg">
-          <h1 className="font-display text-4xl font-semibold text-primary-dark leading-tight mb-4">
-            Manage your portfolio with{' '}
-            <span className="text-gradient">clarity</span>
+        <div className="max-w-md">
+          <h1 className="font-display text-3xl font-semibold text-primary leading-tight mb-4">
+            Manage your portfolio with clarity
           </h1>
-          <p className="text-lg text-primary-dark/70 mb-10 leading-relaxed">
-            Track properties, leads, and transactions in one place. Built for real estate professionals who value simplicity and elegance.
+          <p className="text-gray-600 mb-10 leading-relaxed">
+            Track properties, leads, and transactions in one place. Built for real estate professionals who value simplicity.
           </p>
 
           {/* Stats */}
-          <div className="flex gap-6 mb-10">
+          <div className="flex gap-4 mb-10">
             {STATS.map((stat) => (
-              <div key={stat.label} className="glass-card px-5 py-4 flex items-center gap-3">
-                <div className="flex items-center justify-center">
-                  <stat.icon className="w-5 h-5 text-primary" />
-                </div>
+              <div key={stat.label} className="px-4 py-3 border border-gray-200 rounded flex items-center gap-3">
+                <stat.icon className="w-5 h-5 text-gray-400" />
                 <div>
-                  <div className="font-display text-xl font-semibold text-primary-dark">{stat.value}</div>
-                  <div className="text-sm text-primary-dark/60">{stat.label}</div>
+                  <div className="font-display text-lg font-semibold text-primary">{stat.value}</div>
+                  <div className="text-xs text-gray-500">{stat.label}</div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Testimonial */}
-          <div className="glass-card p-6">
-            <Quote className="w-6 h-6 text-primary/30 mb-3" />
-            <p className="text-primary-dark/80 mb-4 text-lg leading-relaxed">"{testimonial.quote}"</p>
+          <div className="border border-gray-200 rounded p-5">
+            <Quote className="w-5 h-5 text-gray-300 mb-3" />
+            <p className="text-gray-700 mb-4">"{testimonial.quote}"</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center">
-                  <span className="text-sm font-semibold text-primary">{testimonial.avatar}</span>
+                <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
+                  <span className="text-xs font-medium text-gray-600">{testimonial.avatar}</span>
                 </div>
                 <div>
-                  <div className="font-medium text-primary-dark">{testimonial.name}</div>
-                  <div className="text-sm text-primary-dark/60">{testimonial.role}</div>
+                  <div className="text-sm font-medium text-primary">{testimonial.name}</div>
+                  <div className="text-xs text-gray-500">{testimonial.role}</div>
                 </div>
               </div>
-              <div className="flex gap-1.5">
+              <div className="flex gap-1">
                 {TESTIMONIALS.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentTestimonial(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      i === currentTestimonial ? 'bg-primary w-6' : 'bg-primary/20 w-1.5 hover:bg-primary/40'
+                    className={`h-1 rounded-full transition-all duration-200 cursor-pointer ${
+                      i === currentTestimonial ? 'bg-primary w-4' : 'bg-gray-200 w-1 hover:bg-gray-300'
                     }`}
                     aria-label={`View testimonial ${i + 1}`}
                   />
@@ -118,7 +104,7 @@ export function LoginHero() {
         </div>
 
         {/* Footer */}
-        <div className="text-sm text-primary-dark/50">
+        <div className="text-xs text-gray-400">
           Trusted by 500+ real estate professionals worldwide
         </div>
       </div>

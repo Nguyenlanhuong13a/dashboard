@@ -12,18 +12,18 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, change, changeType, icon: Icon }: StatsCardProps) {
   return (
-    <div className="glass-card-hover p-5">
+    <div className="p-4 border border-gray-200 rounded hover:border-gray-300 transition-colors cursor-pointer">
       <div className="flex items-start justify-between">
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-primary-dark/60">{title}</p>
-          <p className="font-display text-2xl font-semibold text-primary-dark tracking-tight tabular-nums">{value}</p>
+        <div className="space-y-2">
+          <p className="text-sm text-gray-500">{title}</p>
+          <p className="font-display text-2xl font-semibold text-primary tabular-nums">{value}</p>
           {change && (
-            <div className={`inline-flex items-center gap-1.5 text-xs font-medium rounded-full px-2.5 py-1 border ${
+            <div className={`inline-flex items-center gap-1 text-xs font-medium ${
               changeType === 'up'
-                ? 'text-primary border-primary/30'
+                ? 'text-green-600'
                 : changeType === 'down'
-                ? 'text-red-600 border-red-300'
-                : 'text-primary-dark/50 border-primary-dark/20'
+                ? 'text-red-600'
+                : 'text-gray-500'
             }`}>
               {changeType === 'up' && <TrendingUp className="h-3 w-3" aria-hidden="true" />}
               {changeType === 'down' && <TrendingDown className="h-3 w-3" aria-hidden="true" />}
@@ -31,9 +31,7 @@ export function StatsCard({ title, value, change, changeType, icon: Icon }: Stat
             </div>
           )}
         </div>
-        <div className="flex items-center justify-center">
-          <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-        </div>
+        <Icon className="h-5 w-5 text-gray-400" aria-hidden="true" />
       </div>
     </div>
   )

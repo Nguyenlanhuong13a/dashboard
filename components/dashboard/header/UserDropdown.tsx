@@ -40,30 +40,30 @@ export function UserDropdown({ user, onLogout }: UserDropdownProps) {
         aria-label="User menu"
         aria-expanded={showDropdown}
         aria-haspopup="menu"
-        className={`flex items-center gap-2 p-1.5 rounded-xl transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-          showDropdown ? 'text-primary' : 'hover:text-primary'
+        className={`flex items-center gap-1.5 p-1 rounded transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+          showDropdown ? 'bg-gray-50' : 'hover:bg-gray-50'
         }`}
       >
-        <div className="w-8 h-8 rounded-lg border border-primary/30 flex items-center justify-center text-primary text-xs font-semibold">
+        <div className="w-8 h-8 rounded border border-gray-200 flex items-center justify-center text-primary text-xs font-medium">
           {initials}
         </div>
-        <ChevronDown className={`h-4 w-4 text-primary-dark/50 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} aria-hidden="true" />
+        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-150 ${showDropdown ? 'rotate-180' : ''}`} aria-hidden="true" />
       </button>
 
       {showDropdown && (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-56 glass-card overflow-hidden animate-fade-in"
+          className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded overflow-hidden animate-fade-in z-50"
         >
-          <div className="px-4 py-3 border-b border-primary/10">
-            <p className="font-medium text-sm text-primary-dark truncate">{user?.name || 'User'}</p>
-            <p className="text-xs text-primary-dark/60 truncate">{user?.email}</p>
+          <div className="px-4 py-3 border-b border-gray-100">
+            <p className="font-medium text-sm text-primary truncate">{user?.name || 'User'}</p>
+            <p className="text-xs text-gray-500 truncate">{user?.email}</p>
           </div>
-          <div className="p-2">
+          <div className="p-1.5">
             <button
               role="menuitem"
               onClick={onLogout}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-primary-dark/70 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer focus:outline-none focus-visible:bg-red-50"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer focus:outline-none focus-visible:bg-red-50"
             >
               <LogOut className="h-4 w-4" aria-hidden="true" />
               Sign out

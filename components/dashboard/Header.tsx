@@ -41,37 +41,37 @@ export function Header({
   onMobileMenuToggle
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 bg-white/70 backdrop-blur-[16px] border-b border-white/30">
-      <div className="flex items-center justify-between px-5 sm:px-6 h-16">
+    <header className="sticky top-0 z-30 bg-white border-b border-gray-200">
+      <div className="flex items-center justify-between px-4 sm:px-6 h-14">
         {/* Mobile menu button + Title */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {onMobileMenuToggle && (
             <button
               onClick={onMobileMenuToggle}
               aria-label="Open menu"
-              className="lg:hidden p-2 -ml-2 rounded-xl text-primary-dark/60 hover:text-primary hover:bg-primary/5 transition-colors cursor-pointer"
+              className="lg:hidden p-1.5 -ml-1.5 rounded text-gray-500 hover:text-primary hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <Menu className="h-5 w-5" aria-hidden="true" />
             </button>
           )}
-          <h1 className="font-display text-lg font-semibold text-primary-dark">{title}</h1>
+          <h1 className="font-display text-base font-semibold text-primary">{title}</h1>
         </div>
 
         {/* Right section */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Search */}
           {onSearchChange && (
             <div className="relative hidden sm:block">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary pointer-events-none" aria-hidden="true" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" aria-hidden="true" />
               <input
                 type="search"
                 name="search"
                 placeholder="Search..."
                 autoComplete="off"
-                aria-label="Search properties"
+                aria-label="Search"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-56 pl-11 pr-4 py-2.5 rounded-xl bg-white/60 backdrop-blur-[8px] border border-white/30 text-sm text-primary-dark placeholder:text-primary-dark/40 transition-all focus:outline-none focus:bg-white/80 focus:border-primary/20 focus:ring-2 focus:ring-primary/10"
+                className="w-48 pl-9 pr-3 py-2 rounded border border-gray-200 text-sm text-primary placeholder:text-gray-400 transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               />
             </div>
           )}
@@ -80,7 +80,7 @@ export function Header({
           {onAddProperty && (
             <button
               onClick={onAddProperty}
-              className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-transparent border border-primary text-primary text-sm font-medium transition-all hover:border-primary-light active:scale-[0.98] cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded border border-gray-200 text-sm font-medium text-gray-700 hover:border-primary hover:text-primary transition-colors cursor-pointer"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               <span>Add</span>
@@ -92,14 +92,10 @@ export function Header({
             <button
               onClick={onUpgrade}
               aria-label={subscription.plan === 'FREE' ? 'Upgrade subscription' : `Current plan: ${subscription.plan}`}
-              className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-all cursor-pointer bg-transparent ${
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded border text-xs font-medium uppercase tracking-wide transition-colors cursor-pointer ${
                 subscription.plan === 'FREE'
-                  ? 'text-accent-gold border border-accent-gold/40 hover:border-accent-gold'
-                  : subscription.plan === 'STARTER'
-                  ? 'text-primary border border-primary/40 hover:border-primary'
-                  : subscription.plan === 'PROFESSIONAL'
-                  ? 'text-primary border border-primary/40 hover:border-primary'
-                  : 'text-accent border border-accent/40 hover:border-accent'
+                  ? 'border-amber-300 text-amber-600 hover:border-amber-400'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-300'
               }`}
             >
               {subscription.plan === 'FREE' ? (

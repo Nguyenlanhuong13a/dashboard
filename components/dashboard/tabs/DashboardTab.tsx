@@ -75,10 +75,10 @@ export function DashboardTab({ stats, properties, favorites, onToggleFavorite, o
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-sm font-semibold text-primary-dark">Recent Properties</h2>
+          <h2 className="font-display text-sm font-semibold text-gray-900">Recent Properties</h2>
           <button
             onClick={onNavigateToProperties}
-            className="flex items-center gap-1.5 text-sm text-primary hover:text-primary-light transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
           >
             View All <ArrowUpRight className="h-3.5 w-3.5" />
           </button>
